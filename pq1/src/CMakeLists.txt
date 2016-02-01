@@ -2,4 +2,4 @@ set(MAIN_SOURCES
   main.c
 )
 
-add_executable(main ${HEADERS} ${MAIN_SOURCES})
+add_executable(pq1 ${HEADERS} ${MAIN_SOURCES})

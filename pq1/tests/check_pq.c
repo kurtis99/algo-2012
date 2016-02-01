@@ -22,21 +22,64 @@
 #include <stdint.h>
 #include <check.h>
 
-#if 0
-void setup(void)
-{
-    five_dollars = money_create(5, "USD");
-}
+#include <../src/main.c>
 
-void teardown(void)
+START_TEST(test_pq_append_to_array)
 {
-    money_free(five_dollars);
-}
-#endif
+	int *tst_array;
 
-START_TEST(test_pq)
+	init_array();
+
+	append_to_array(&tst_array, 0);
+	ck_assert_int_eq(tst_array[0], 0);
+
+	append_to_array(&tst_array, 1);
+	ck_assert_int_eq(tst_array[0], 0);
+	ck_assert_int_eq(tst_array[1], 1);
+
+	append_to_array(&tst_array, 2);
+	ck_assert_int_eq(tst_array[0], 0);
+	ck_assert_int_eq(tst_array[1], 1);
+	ck_assert_int_eq(tst_array[2], 2);
+
+	append_to_array(&tst_array, 3);
+	ck_assert_int_eq(tst_array[0], 0);
+	ck_assert_int_eq(tst_array[1], 1);
+	ck_assert_int_eq(tst_array[2], 2);
+	ck_assert_int_eq(tst_array[3], 3);
+
+	free(tst_array);
+}
+END_TEST
+
+START_TEST(test_pq_read_array)
 {
-    ck_assert_int_eq(1, 0);
+	int *tst_array;
+	store_file_to_array(CURRENT_TEST_DIR "test_pattern1.txt", &tst_array);
+
+	ck_assert_int_eq(tst_array[0], 1);
+	ck_assert_int_eq(tst_array[1], 2);
+	ck_assert_int_eq(tst_array[2], 3);
+	ck_assert_int_eq(tst_array[3], 4);
+	ck_assert_int_eq(tst_array[4], 5);
+	ck_assert_int_eq(tst_array[5], 6);
+
+	free(tst_array);
+}
+END_TEST
+
+START_TEST(test_pq_read_array_len)
+{
+	int *tst_array;
+	int size;
+
+	size = store_file_to_array(CURRENT_TEST_DIR "test_pattern1.txt", &tst_array);
+	ck_assert_int_eq(size, 6);
+	free(tst_array);
+
+	size = store_file_to_array(CURRENT_TEST_DIR "../IntegerArray.txt", &tst_array);
+	ck_assert_int_eq(size, 100000);
+	free(tst_array);
 }
 END_TEST
 
@@ -50,19 +93,10 @@ Suite * money_suite(void)
     TCase *tc_core;
     tc_core = tcase_create("Programming Questions");
 
-//    tcase_add_checked_fixture(tc_core, setup, teardown);
-    tcase_add_test(tc_core, test_pq);
+    tcase_add_test(tc_core, test_pq_append_to_array);
+    tcase_add_test(tc_core, test_pq_read_array);
+    tcase_add_test(tc_core, test_pq_read_array_len);
     suite_add_tcase(s, tc_core);
-
-    /* Limits test case */
-#if 0
-    TCase *tc_limits;
-    tc_limits = tcase_create("Limits");
-
-    tcase_add_test(tc_limits, test_money_create_neg);
-    tcase_add_test(tc_limits, test_money_create_zero);
-    suite_add_tcase(s, tc_limits);
-#endif
 
     return s;
 }

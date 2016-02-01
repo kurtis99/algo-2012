@@ -6,7 +6,7 @@ rm -rf bin
 mkdir build
 cd build
 
-cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE=1 ../
+cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE=0 ../
 make
 
 cd ..

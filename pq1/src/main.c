@@ -113,7 +113,6 @@ size_t Merge_and_CountSplitInv(int *arr, size_t len)
 		if (j == max_C(len)) {
 			D[k] = B[i];
 			i++;
-			invs++;
 			continue;
 		}
 

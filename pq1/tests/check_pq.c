@@ -130,22 +130,30 @@ END_TEST
 
 START_TEST(test_pq_merge_and_countsplit)
 {
-	int tst_array[6] = {1,3,5,2,4,6};
 	int inv;
 
-	inv = Merge_and_CountSplitInv(tst_array, ARRAY_SIZE(tst_array));
-	ck_assert_int_eq(inv, 3);
+	{
+		int tst_array[6] = {1,3,5,2,4,6};
+		inv = Merge_and_CountSplitInv(tst_array, ARRAY_SIZE(tst_array));
+		ck_assert_int_eq(inv, 3);
+	}
 }
 END_TEST
 
 START_TEST(test_pq_sort_and_count)
 {
-	int tst_array[6] = {1,3,5,2,4,6};
 	int inv;
 
-	inv = Sort_and_Count(tst_array, ARRAY_SIZE(tst_array));
-
-	ck_assert_int_eq(inv, 3);
+	{
+		int tst_array[6] = {1,3,5,2,4,6};
+		inv = Sort_and_Count(tst_array, ARRAY_SIZE(tst_array));
+		ck_assert_int_eq(inv, 3);
+	}
+	{
+		int tst_array[6] = {6,5,4,3,2,1};
+		inv = Sort_and_Count(tst_array, ARRAY_SIZE(tst_array));
+		ck_assert_int_eq(inv, 15);
+	}
 }
 END_TEST
 
@@ -187,8 +195,8 @@ int main(void)
     s = money_suite();
     sr = srunner_create(s);
 
-    //srunner_run_all(sr, CK_NORMAL | CK_NOFORK);
-    srunner_run_all(sr, CK_NOFORK);
+    srunner_run_all(sr, CK_NORMAL);
+    //srunner_print(sr, CK_VERBOSE);
     number_failed = srunner_ntests_failed(sr);
     srunner_free(sr);
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
